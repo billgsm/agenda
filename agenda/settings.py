@@ -1,6 +1,11 @@
 import os
 project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+try:
+  from local_settings import *
+except:
+  pass
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -109,6 +114,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'south',
+    'personal_calendar',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -141,8 +147,3 @@ LOGGING = {
         },
     }
 }
-
-try:
-  from local_settings import *
-except:
-  pass
