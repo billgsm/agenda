@@ -2,3 +2,4 @@ syntax:glob
 *.pyc
 *~
 *.db
+agenda/local_settings.py
