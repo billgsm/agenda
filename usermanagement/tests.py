@@ -8,14 +8,14 @@ class StatusTest(TestCase):
     self.client = Client()
 
   def test_public(self):
-    urls = ({'url': '/accounts/login/',
-             'template': 'registration/login.html',
+    urls = ({'url': '/user/login/',
+             'template': 'user/login.html',
              'status': 200},
-            {'url': '/accounts/logout/',
-             'template': 'registration/login.html',
+            {'url': '/user/logout/',
+             'template': 'user/login.html',
              'status': 302},
-            {'url': '/accounts/profile/',
-             'template': 'registration/login.html',
+            {'url': '/user/profile/',
+             'template': 'user/login.html',
              'status': 302},
            )
     for url in urls:
@@ -52,8 +52,8 @@ class StatusTest(TestCase):
             'username': 'john',
             'password': 'ggggggg',
            }
-    response = self.client.post('/accounts/login/', form, follow=True)
-    self.assertEqual(response.template_name[0], 'registration/profile.html')
+    response = self.client.post('/user/login/', form, follow=True)
+    self.assertEqual(response.templates[0].name, 'user/profile.html')
 
   def test_login_fail(self):
     self.test_register_form()
@@ -61,5 +61,5 @@ class StatusTest(TestCase):
             'username': 'john',
             'password': 'gg',
            }
-    response = self.client.post('/accounts/login/', form, follow=True)
-    self.assertEqual(response.template_name, 'registration/login.html')
+    response = self.client.post('/user/login/', form, follow=True)
+    self.assertEqual(response.template_name, 'user/login.html')
