@@ -39,13 +39,5 @@ class TestEvenement_Participant(TestCase):
     event_part.save()
     event_part = Evenement_Participant.objects.get(evenement=event,
                                                    participant=participant
-                                                   )
+                                                  )
     self.assertEqual(event_part.status, 1)
-
-
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
