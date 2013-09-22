@@ -27,9 +27,13 @@ class Evenement(models.Model):
   participants = models.ManyToManyField(
       User,
       through="Evenement_Participant",
+      null=True, blank=True
     )
   date = models.DateTimeField()
   lieu = models.TextField()
+
+  def __unicode__(self):
+    return self.nom
 
 
 class Evenement_Participant(models.Model):
