@@ -22,7 +22,7 @@ class Evenement(models.Model):
   >>> rendezvous.nom
   u'rendez-vous chez le dentiste'
   """
-  nom = models.CharField(max_length=250)
+  nom = models.CharField(max_length=250, unique=True)
   description = models.TextField()
   participants = models.ManyToManyField(
       User,
@@ -69,3 +69,5 @@ class Evenement_Participant(models.Model):
       (2, "désisté")
       )
   status = models.IntegerField(choices=status_choices)
+  class Meta:
+    unique_together = ('evenement', 'participant')
