@@ -12,9 +12,21 @@ def create(request):
     form = EventForm(request.POST)
     if form.is_valid():
       event = form.save()
-      return HttpResponseRedirect('/event/%i/details/' % event.pk)
+      return HttpResponseRedirect('/agenda/%i/details/' % event.pk)
   else:
     form = EventForm()
+  return render(request, 'personal_calendar/event/create.html',
+                {'form': form})
+
+def update(request, id):
+  event = Evenement.objects.get(pk=id)
+  if request.method == 'POST':
+    form = EventForm(request.POST, instance=event)
+    if form.is_valid():
+      event = form.save()
+      return HttpResponseRedirect('/agenda/%i/details/' % event.pk)
+  else:
+    form = EventForm(instance=event)
   return render(request, 'personal_calendar/event/create.html',
                 {'form': form})
 
@@ -24,7 +36,7 @@ def details(request, id):
     form = Evenement_ParticipantForm(request.POST)
     if form.is_valid():
       form.save()
-      return HttpResponseRedirect('/event/%s/details/' % id)
+      return HttpResponseRedirect('/agenda/%s/details/' % id)
   else:
     form = Evenement_ParticipantForm(initial={'evenement': event})
     participants = [user.pk for user in event.participants.all()]
@@ -45,4 +57,15 @@ def delete_participant(request, id, participant):
         participant=participant,
         )
     to_delete.delete()
-  return HttpResponseRedirect('/event/%s/details/' % id)
+  return HttpResponseRedirect('/agenda/%s/details/' % id)
+
+def delete(request, id):
+  if request.method == 'POST':
+    event = Evenement.objects.get(pk=id)
+    event.delete()
+  return HttpResponseRedirect('/agenda/list/')
+
+def liste(request):
+  events = Evenement.objects.all()
+  return render(request, 'personal_calendar/event/list.html',
+                {"events": events})
