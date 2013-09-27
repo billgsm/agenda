@@ -11,10 +11,11 @@
       <h3><a href="{{ event.get_absolute_url }}">{{ event.nom }}</a></h3>
         <p>{{ event.date }}</p>
         <p>{{ event.lieu }}</p>
-        <p><a href="/agenda/{{ event.id }}/update/">Modify</a></p>
+        <p><a href="{% url 'update_create' event.id %}">Modify</a></p>
       </li>
     {% endfor %}
   </ul>
-  <p><a href="/agenda/create/">Create a new event</a></p>
+  {# <p><a href="/agenda/create/">Create a new event</a></p> #}
+  <p><a href="{% url 'update_create' %}">Create a new event</a></p>
 </body>
 </html>
