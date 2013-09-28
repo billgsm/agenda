@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% block title %}
+    Agenda partagé
+    {% endblock %}
+  </title>
+</head>
+<body>
+  <div id="header"></div>
+  <div id="menu"></div>
+  <div id="content">
+    {% block content %}
+    "base.html"
+    {% endblock content %}
+  </div>
+  <div id="footer">
+  </div>
+</body>
+</html>

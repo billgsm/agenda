@@ -6,12 +6,12 @@
 </head>
 <body>
   {% for participant in event.evenement_participant_set.all %}
-    <p>{{ participant.participant }} | {{ participant.get_status_display }}
-        <form method="POST" action="{% url 'delete_participant' event.id participant.participant.id %}">
-        {% csrf_token %}
-        <input type="submit" value="Remove" />
-      </form>
-    </p>
+  <p>
+  {{ participant.participant }} | {{ participant.get_status_display }}
+  {% with delete_url=participant.delete_url %}
+  {% include "personal_calendar/blocks/delete_form.html" %}
+  {% endwith  %}
+  </p>
   {% endfor %}
   <h1>{{ event.nom }}</h1> 
   <p>{{ event.description }}</p>
@@ -22,10 +22,10 @@
     {{ form.as_p }}
     <input type="submit" value="créer" />
   </form>
+  {% with delete_url=event.delete_url %}
+  {% include "personal_calendar/blocks/delete_form.html" %}
+  {% endwith  %}
+  <p><a href="{% url 'update_create' event.id %}">Modify</a></p>
 
-  <form action="/agenda/{{ event.id }}/delete/" method="POST">{% csrf_token %}
-    <input type="submit" value="Delete" />
-  </form>
-    <p><a href="/agenda/{{ event.id }}/update/">Modify</a></p>
 </body>
 </html>

@@ -1,10 +1,16 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>
+  {% block title %}
+  Events list
+  {% endblock %}
+  </title>
 </head>
 <body>
+{% block content %}
   <ul>
     {% for event in events %}
       <li>
@@ -15,7 +21,7 @@
       </li>
     {% endfor %}
   </ul>
-  {# <p><a href="/agenda/create/">Create a new event</a></p> #}
   <p><a href="{% url 'update_create' %}">Create a new event</a></p>
+{% endblock content %}
 </body>
 </html>
