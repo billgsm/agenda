@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/global.css" type="text/css" />
   <title>
     {% block title %}
-    Agenda partagé
+      Agenda partagé
     {% endblock %}
   </title>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.ui.core.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.ui.datepicker.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.ui.datepicker-fr.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-custom.js"></script>
 </head>
 <body>
   <div id="header"></div>
