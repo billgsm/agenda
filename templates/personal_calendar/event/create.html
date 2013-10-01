@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block title %}
-  Create/Modify
+  Create/Modify event
 {% endblock %}
 {% block content %}
-  <form action="" method="POST">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create" />
-  </form>
+{% include "personal_calendar/blocks/participant_form.html" %}
 {% endblock content %}

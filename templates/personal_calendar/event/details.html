@@ -1,31 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>event: {{ event.nom }}</title>
-</head>
-<body>
-  {% for participant in event.evenement_participant_set.all %}
-  <p>
-  {{ participant.participant }} | {{ participant.get_status_display }}
-  {% with delete_url=participant.delete_url %}
-  {% include "personal_calendar/blocks/delete_form.html" %}
-  {% endwith  %}
-  </p>
-  {% endfor %}
+{% extends "base.html" %}
+{% block title %}
+  Event: {{ event.nom }}
+{% endblock %}
+
+{% block content %}
+  <div id="participants">
+    {% for participant in event.evenement_participant_set.all %}
+      <div>
+      {{ participant.participant }} | {{ participant.get_status_display }}
+      {% with delete_url=participant.delete_url %}
+        {% include "personal_calendar/blocks/delete_form.html" %}
+      {% endwith  %}
+      </div>
+    {% endfor %}
+  </div>
   <h1>{{ event.nom }}</h1> 
   <p>{{ event.description }}</p>
   <p>{{ event.date }}</p>
   <p>{{ event.lieu }}</p>
-  <form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="créer" />
-  </form>
+  {% include "personal_calendar/blocks/participant_form.html" %}
   {% with delete_url=event.delete_url %}
-  {% include "personal_calendar/blocks/delete_form.html" %}
+    {% include "personal_calendar/blocks/delete_form.html" %}
   {% endwith  %}
   <p><a href="{% url 'update_create' event.id %}">Modify</a></p>
-
-</body>
-</html>
+{% endblock content %}

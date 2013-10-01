@@ -1,14 +1,22 @@
 {% extends "base.html" %}
-  {% block title %}
+{% block title %}
   Events list
-  {% endblock %}
+{% endblock %}
 {% block content %}
   <ul>
     {% for event in events %}
       <li>
-      <h3><a href="{{ event.get_absolute_url }}">{{ event.nom }}</a></h3>
+      <h3>
+        <a class="title" href="">{{ event.nom }}</a>
+        <a href="{{ event.get_absolute_url }}">(details)</a>
+      </h3>
         <p>{{ event.date }}</p>
         <p>{{ event.lieu }}</p>
+        {% for participant in event.evenement_participant_set.all %}
+        <div class="well">
+        {{ participant.participant }}
+        </div>
+        {% endfor %}
         <p><a href="{% url 'update_create' event.id %}">Modify</a></p>
       </li>
     {% endfor %}
