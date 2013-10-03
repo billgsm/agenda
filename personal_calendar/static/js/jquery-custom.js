@@ -11,7 +11,7 @@ jQuery(function($) {
   });
   //Ajax: add participants to an event
   $('#participant_form').submit(function(e) {
-    if (current_url.indexOf("update") < 0){
+    if (current_url.indexOf("update") < 0 && current_url.indexOf("create") < 0){
     $.ajax(
       {
         type: "POST",
@@ -39,19 +39,21 @@ jQuery(function($) {
 
   //Ajax: remove participants from an event
   $(document).on('click', '.delete', function(e) {
-    e.preventDefault();
-    var form = $(this);
-    $.ajax(
-    {
-      type: "POST",
-      data: $(this).serialize(),
-      url: $(this).attr('action'),
-      success: function(data) {
-        if(data.ack == 'OK') {
-          form.parent(':not(#content)').remove();
-          $("#participant_form").html(data.form);
+    if( current_url.indexOf('/participant/') >= 0 ) {
+      var form = $(this);
+      $.ajax(
+      {
+        type: "POST",
+        data: $(this).serialize(),
+        url: $(this).attr('action'),
+        success: function(data) {
+          if(data.ack == 'OK') {
+            form.parent(':not(#content)').remove();
+            $("#participant_form").html(data.form);
+          }
         }
-      }
-    });
+      });
+      e.preventDefault();
+    }
   });
 });
