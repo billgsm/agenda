@@ -15,8 +15,9 @@ jQuery(function($) {
         url: "",
         success: function(data) {
           if(typeof(data) == 'string'){
-            $("#participants_form").html(data);
+            $("#participant_form").html(data);
           } else {
+            $("#participant_form").html(data.form);
             $('#participants').append(
               "<div>"
              + data.participant + " | "
@@ -41,8 +42,9 @@ jQuery(function($) {
       data: $(this).serialize(),
       url: $(this).attr('action'),
       success: function(data) {
-        if(data == 'OK') {
+        if(data.ack == 'OK') {
           form.parent(':not(#content)').remove();
+          $("#participant_form").html(data.form);
         }
       }
     });

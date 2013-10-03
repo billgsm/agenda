@@ -47,9 +47,23 @@ def details(request, id):
                                        # Needed for the csrf_token
                                        RequestContext(request)
                                       )
+        #################### regenerate the form with the right remaining participants
+        updated_form = Evenement_ParticipantForm(initial={'evenement': event})
+        participants = [user.pk for user in event.participants.all()]
+        updated_form.fields['participant'].queryset = User.objects.exclude(pk__in=participants)
+        updated_form.fields['evenement'].widget = HiddenInput()
+        create_form_updated = render_to_string("personal_calendar/blocks/participant_form.html",
+                                       {
+                                         'form': updated_form,
+                                       },
+                                       # Needed for the csrf_token
+                                       RequestContext(request)
+                                      )
+        #################### regenerate the form with the right remaining participants
         data = {'participant': form.instance.participant.username,
                 'get_status_display': form.instance.get_status_display(),
-                'delete_form': delete_form}
+                'delete_form': delete_form,
+                'form': create_form_updated}
         return HttpResponse(json.dumps(data), mimetype="application/json")
 
       return HttpResponseRedirect('/agenda/%s/details/' % id)
@@ -86,7 +100,22 @@ def delete_participant(request, id, participant):
         )
     to_delete.delete()
     if request.is_ajax():
-      return HttpResponse('OK')
+      #################### regenerate the form with the right remaining participants
+      updated_form = Evenement_ParticipantForm(initial={'evenement': event})
+      participants = [user.pk for user in event.participants.all()]
+      updated_form.fields['participant'].queryset = User.objects.exclude(pk__in=participants)
+      updated_form.fields['evenement'].widget = HiddenInput()
+      create_form_updated = render_to_string("personal_calendar/blocks/participant_form.html",
+                                     {
+                                       'form': updated_form,
+                                     },
+                                     # Needed for the csrf_token
+                                     RequestContext(request)
+                                    )
+      #################### END
+      data = {'ack': 'OK',
+              'form': create_form_updated}
+      return HttpResponse(json.dumps(data), mimetype="application/json")
   return HttpResponseRedirect('/agenda/%s/details/' % id)
 
 def liste(request):
