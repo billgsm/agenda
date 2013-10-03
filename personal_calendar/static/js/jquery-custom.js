@@ -1,4 +1,7 @@
 jQuery(function($) {
+  /******************** Useful var ********************/
+  var current_url = $(location).attr('href');
+  /****************************************************/
   // Customized accordion
   $('#id_date').datepicker();
   $('#content > ul > li > :not(h3)').hide();
@@ -8,6 +11,7 @@ jQuery(function($) {
   });
   //Ajax: add participants to an event
   $('#participant_form').submit(function(e) {
+    if (current_url.indexOf("update") < 0){
     $.ajax(
       {
         type: "POST",
@@ -30,6 +34,7 @@ jQuery(function($) {
       }
       );
       e.preventDefault();
+    }
   });
 
   //Ajax: remove participants from an event
