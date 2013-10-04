@@ -1,5 +1,6 @@
 #-*-coding: utf-8-*-
 import json
+import datetime
 
 from django.shortcuts import (render, HttpResponseRedirect,
     render_to_response, HttpResponse)
@@ -7,6 +8,8 @@ from django.contrib.auth.models import User
 from django.forms import HiddenInput
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.views.generic.list import ListView
 
 from forms import EventForm, Evenement_ParticipantForm
 from models import Evenement, Evenement_Participant
@@ -118,7 +121,12 @@ def delete_participant(request, id, participant):
       return HttpResponse(json.dumps(data), mimetype="application/json")
   return HttpResponseRedirect('/agenda/%s/details/' % id)
 
-def liste(request):
-  events = Evenement.objects.all()
-  return render(request, 'personal_calendar/event/list.html',
-                {"events": events})
+class Evenement_List(ListView):
+
+  def get_queryset(self):
+    print self.request.user.username
+    events = Evenement.objects.filter(participants=self.request.user.id,
+                                      date__gte=datetime.datetime.now())
+    if 'field' in self.kwargs:
+      events = events.filter((self.kwargs['field'], self.kwargs['pattern']))
+    return events

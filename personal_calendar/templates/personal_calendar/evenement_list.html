@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
   <ul>
-    {% for event in events %}
+    {% for event in object_list %}
       <li>
       <h3>
         <a class="title" href="">{{ event.nom }}</a>
@@ -22,4 +22,5 @@
     {% endfor %}
   </ul>
   <p><a href="{% url 'update_create' %}">Create a new event</a></p>
+  {% include "personal_calendar/blocks/pagination.html" %}
 {% endblock content %}

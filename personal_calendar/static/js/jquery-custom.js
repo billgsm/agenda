@@ -39,7 +39,7 @@ jQuery(function($) {
 
   //Ajax: remove participants from an event
   $(document).on('click', '.delete', function(e) {
-    if( current_url.indexOf('/participant/') >= 0 ) {
+    if( $(this).attr('action').indexOf('/participant/') >= 0 ) {
       var form = $(this);
       $.ajax(
       {
