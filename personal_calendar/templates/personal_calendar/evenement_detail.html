@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Event: {{ object.nom }}
+{% endblock %}
+
+{% block content %}
+  <div id="participants">
+    {% for participant in object.evenement_participant_set.all %}
+      <div>
+      {{ participant.participant }} | {{ participant.get_status_display }}
+      {% with delete_url=participant.delete_url %}
+        {% include "personal_calendar/blocks/delete_form.html" %}
+      {% endwith  %}
+      </div>
+    {% endfor %}
+  </div>
+  <h1>{{ object.nom }} (<a href="{% url 'update_create' object.id %}">Modify</a>)</h1> 
+  <p>{{ object.description }}</p>
+  <p>{{ object.date }}</p>
+  <p>{{ object.lieu }}</p>
+  {% include "personal_calendar/blocks/participant_form.html" %}
+  {% with delete_url=object.delete_url %}
+    {% include "personal_calendar/blocks/delete_form.html" %}
+  {% endwith  %}
+{% endblock content %}

@@ -1,6 +1,7 @@
 # -*-coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class Evenement(models.Model):
   """
@@ -36,10 +37,10 @@ class Evenement(models.Model):
     return self.nom
 
   def delete_url(self):
-    return "/agenda/{0}/delete/".format(self.id)
+    return reverse("delete", kwargs={'pk': self.pk})
 
   def get_absolute_url(self):
-    return "/agenda/{0}/details".format(self.id)
+    return reverse("details", kwargs={'pk': self.pk})
 
 
 class Evenement_Participant(models.Model):
