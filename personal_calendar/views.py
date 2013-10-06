@@ -16,27 +16,6 @@ from forms import EventForm, Evenement_ParticipantForm
 from models import Evenement, Evenement_Participant
 
 
-def update_create(request, id=None):
-  try:
-    event = Evenement.objects.get(pk=id)
-  except Evenement.DoesNotExist:
-    pass
-  if request.method == 'POST':
-    try:
-      form = EventForm(request.POST, instance=event)
-    except NameError:
-      form = EventForm(request.POST)
-    if form.is_valid():
-      event = form.save()
-      return HttpResponseRedirect('/agenda/%i/detail/' % event.pk)
-  else:
-    try:
-      form = EventForm(instance=event)
-    except NameError:
-      form = EventForm()
-  return render(request, 'personal_calendar/event/create.html',
-                {'form': form})
-
 def delete(request, id):
   if request.method == 'POST':
     event = Evenement.objects.get(pk=id)
@@ -55,9 +34,6 @@ def delete_participant(request, id, participant):
     if request.is_ajax():
       #################### regenerate the form with the right remaining participants
       updated_form = Evenement_ParticipantForm(initial={'evenement': event})
-      participants = [user.pk for user in event.participants.all()]
-      updated_form.fields['participant'].queryset = User.objects.exclude(pk__in=participants)
-      updated_form.fields['evenement'].widget = HiddenInput()
       create_form_updated = render_to_string("personal_calendar/blocks/participant_form.html",
                                      {
                                        'form': updated_form,

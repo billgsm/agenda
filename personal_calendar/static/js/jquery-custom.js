@@ -10,7 +10,7 @@ jQuery(function($) {
     e.preventDefault();
   });
   //Ajax: add participants to an event
-  $('#participant_form').submit(function(e) {
+  $(document).on("submit", '#participant_form', function(e) {
     if (current_url.indexOf("update") < 0 && current_url.indexOf("create") < 0){
     $.ajax(
       {
@@ -19,9 +19,13 @@ jQuery(function($) {
         url: "",
         success: function(data) {
           if(typeof(data) == 'string'){
-            $("#participant_form").html(data);
+            element = $('#participant_form');
+            element.after(data);
+            element.remove();
           } else {
-            $("#participant_form").html(data.form);
+            element = $('#participant_form');
+            element.after(data.form);
+            element.remove();
             $('#participants').append(
               "<div>"
              + data.participant + " | "
@@ -33,12 +37,12 @@ jQuery(function($) {
         },
       }
       );
-      e.preventDefault();
+    e.preventDefault();
     }
   });
 
   //Ajax: remove participants from an event
-  $(document).on('click', '.delete', function(e) {
+  $(document).on('submit', '.delete', function(e) {
     if( $(this).attr('action').indexOf('/participant/') >= 0 ) {
       var form = $(this);
       $.ajax(
@@ -49,7 +53,9 @@ jQuery(function($) {
         success: function(data) {
           if(data.ack == 'OK') {
             form.parent(':not(#content)').remove();
-            $("#participant_form").html(data.form);
+            element = $('#participant_form');
+            element.after(data.form);
+            element.remove();
           }
         }
       });
