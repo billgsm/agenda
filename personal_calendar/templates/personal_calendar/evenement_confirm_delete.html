@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Event: {{ object.nom }}
+{% endblock %}
+
+{% block content %}
+<p>are you sure you want to remove the event</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Yes" />
+</form>
+<a href="{{ object.get_absolute_url }}">No</a>
+{% endblock content %}

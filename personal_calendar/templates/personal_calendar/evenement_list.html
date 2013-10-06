@@ -17,10 +17,10 @@
         {{ participant.participant }}
         </div>
         {% endfor %}
-        <p><a href="{% url 'update_create' event.id %}">Modify</a></p>
+        <p><a href="{% url 'update' event.id %}">Modify</a></p>
       </li>
     {% endfor %}
   </ul>
-  <p><a href="{% url 'update_create' %}">Create a new event</a></p>
+  <p><a href="{% url 'create' %}">Create a new event</a></p>
   {% include "personal_calendar/blocks/pagination.html" %}
 {% endblock content %}

@@ -15,12 +15,10 @@
       </div>
     {% endfor %}
   </div>
-  <h1>{{ object.nom }} (<a href="{% url 'update_create' object.id %}">Modify</a>)</h1> 
+  <h1>{{ object.nom }} (<a href="{% url 'update' object.id %}">Modify</a>)</h1> 
   <p>{{ object.description }}</p>
   <p>{{ object.date }}</p>
   <p>{{ object.lieu }}</p>
   {% include "personal_calendar/blocks/participant_form.html" %}
-  {% with delete_url=object.delete_url %}
-    {% include "personal_calendar/blocks/delete_form.html" %}
-  {% endwith  %}
+  <a href="{% url 'delete' pk=object.pk %}">Remove this event</a>
 {% endblock content %}

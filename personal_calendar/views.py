@@ -16,12 +16,6 @@ from forms import EventForm, Evenement_ParticipantForm
 from models import Evenement, Evenement_Participant
 
 
-def delete(request, id):
-  if request.method == 'POST':
-    event = Evenement.objects.get(pk=id)
-    event.delete()
-  return HttpResponseRedirect('/agenda/list/')
-
 def delete_participant(request, id, participant):
   if request.method == 'POST':
     event = Evenement.objects.get(pk=id)
@@ -109,7 +103,8 @@ class Evenement_List(ListView):
 
   def get_queryset(self):
     print self.request.user
-    events = Evenement.objects.exclude(participants=self.request.user.id)
+    events = Evenement.objects.filter(participants=self.request.user.id,
+        date__gte=datetime.datetime.now())
     if 'field' in self.kwargs:
       events = events.filter((self.kwargs['field'], self.kwargs['pattern']))
     return events
