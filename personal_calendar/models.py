@@ -18,8 +18,8 @@ class Evenement(models.Model):
   >>> event = Evenement(nom="rendez-vous chez le dentiste", description="pas très agréable :(", date=datetime.now()+timedelta(days=5), lieu="chez le dentiste")
   >>> event.save()
   >>> rendezvous = Evenement.objects.get(lieu="chez le dentiste")
-  >>> print rendezvous
-  Evenement object
+  >>> rendezvous
+  <Evenement: rendez-vous chez le dentiste>
   >>> rendezvous.nom
   u'rendez-vous chez le dentiste'
   """
@@ -55,7 +55,7 @@ class Evenement_Participant(models.Model):
   >>> from personal_calendar.models import *
   >>> user = User(username='new', email='new@new.fr', password='pass')
   >>> user.save()
-  >>> event = Evenement(nom="rendez-vous chez le dentiste", description="pas très agréable :(", date=datetime.now()+timedelta(days=5), lieu="chez le dentiste")
+  >>> event = Evenement(nom="rendez-vous", description="très agréable :)", date=datetime.now()+timedelta(days=5), lieu="chez le dentiste")
   >>> event.save()
   >>> event_par = Evenement_Participant(evenement=event, participant=user, status=1)
   >>> event_par.save()
