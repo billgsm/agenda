@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'south',
     'personal_calendar',
     'usermanagement',
+    'addressbook',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
