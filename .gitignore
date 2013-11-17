@@ -4,3 +4,4 @@ syntax:glob
 *.db
 agenda/local_settings.py
 *.swp
+django_dev_emails

@@ -103,8 +103,9 @@ class Evenement_List(ListView):
 
   def get_queryset(self):
     print self.request.user
-    events = Evenement.objects.filter(participants=self.request.user.id,
-        date__gte=datetime.datetime.now())
+    #events = Evenement.objects.filter(participants=self.request.user.id,
+    #    date__gte=datetime.datetime.now())
+    events = Evenement.objects.filter(participants=self.request.user.id)
     if 'field' in self.kwargs:
       events = events.filter((self.kwargs['field'], self.kwargs['pattern']))
     return events
