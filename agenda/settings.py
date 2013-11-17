@@ -1,6 +1,3 @@
-import os
-project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 try:
   from local_settings import *
 except:
@@ -113,9 +110,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'south',
     'personal_calendar',
     'usermanagement',
+    'addressbook',
+    'south',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
