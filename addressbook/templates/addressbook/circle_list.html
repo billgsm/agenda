@@ -1,0 +1,11 @@
+<h1>My circles</h1>
+<ul>
+{% for object in object_list %}
+  <li><a href='{% url "circle_detail" pk=object.pk %}'>{{ object.name }}</a></li>
+{% empty %}
+  <h4>No circle has been created.</h4>
+{% endfor %}
+</ul>
+<a href='{% url "contact_list" %}'>My contacts</a>
+<br />
+<a href='{% url "circle_create" %}'>Create a new circle</a>

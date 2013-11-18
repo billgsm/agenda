@@ -11,30 +11,32 @@ class Circle(models.Model):
     """
     - return users who belong to the circle
     """
-    return self.owner.contact_set.all()
+    return self.userinfo_set.all()
 
   def is_in_circle(self, user):
     """
     * True if the user belongs to the circle
     """
-    if user in self.owner.contact_set.all():
+    if user in self.userinfo_set.all():
       return True
     return False
 
   def __unicode__(self):
-    return u'Circle: {0}'.format(self.name)
+    return u'{0}'.format(self.name)
 
-  # maybe a user should not create two circles whose name are the same
-  #class Meta:
-  #  unique_together = ('name', 'owner')
+  def get_absolute_url(self):
+    return reverse('circle_detail', kwargs={'pk': self.pk})
 
 
 class UserInfo(models.Model):
-  circle = models.ManyToManyField(Circle)
+  circle = models.ManyToManyField(Circle, null=True, blank=True)
   notes = models.TextField()
 
   def __unicode__(self):
-    return u'{0}'.format(self.circle)
+    return u'{0}'.format(self.notes)
+
+  def circles(self):
+    return ', '.join((circle.name for circle in self.circle.all()))
 
 
 class Contact(models.Model):
@@ -67,6 +69,20 @@ class Contact(models.Model):
   def __unicode__(self):
     return u'owner: {0}, user: {1}'.format(self.owner, self.user)
 
+  def save(self, *args, **kwargs):
+    super(Contact, self).save(*args, **kwargs)
+    if self.optional_informations == None:
+      infos = UserInfo.objects.create()
+      self.optional_informations = infos
+      self.save()
+      infos.save()
+
+  def delete(self, *args, **kwargs):
+    optional_informations = self.optional_informations
+    super(Contact, self).delete(*args, **kwargs)
+    optional_informations.delete()
+
+
 class Invitation(models.Model):
   email = models.EmailField()
   sender = models.ForeignKey(User)
@@ -76,6 +92,9 @@ class Invitation(models.Model):
 
   def get_absolute_url(self):
     return reverse('invitation_detail', kwargs={'pk': self.pk})
+
+  def all_invitations(self, user):
+    return Invitation.objects.filter(sender=user)
 
   class Meta:
     unique_together = ('email', 'sender')

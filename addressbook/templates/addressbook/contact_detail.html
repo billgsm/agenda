@@ -1,4 +1,16 @@
-  <p><strong>owner: </strong>{{ object.owner }} </p> 
-  <p><strong>user: </strong>{{ object.user }} </p> 
-  <p><strong>invitation sent? </strong>{{ object.invitation_sent }} </p> 
-  <p><strong>invitation accepted? </strong>{{ object.invitation_accepted }} </p> 
+<h1>{{ object.user.username }}</h1> (<a href='{% url "contact_update" pk=object.pk %}'>Modify</a>)
+<ul>
+  <li><em>Email: </em>{{ object.user.email }}</li>
+  <li><em>invitation sent? </em>{{ object.invitation_sent }} </li>
+  <li><em>invitation accepted? </em>{{ object.invitation_accepted }}</li>
+  <li>Circles which this user belongs to:
+    <ul>
+    {% for circle in object.optional_informations.circle.all %}
+      <li><a href="{{ circle.get_absolute_url }}">{{ circle }} ({{ circle.contacts.count }})</a></li>
+    {% endfor %}
+    </ul>
+  </li>
+</ul>
+<a href='{% url "contact_delete" pk=object.pk %}'>Remove this contact</a>
+<br />
+<a href='{% url "contact_list" %}'>My contacts</a>

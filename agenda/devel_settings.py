@@ -20,4 +20,4 @@ DATABASES = {
 ############Second one works######################################
 ##################################################################
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = project_path.'/django_dev_emails'
+EMAIL_FILE_PATH = project_path + '/django_dev_emails'

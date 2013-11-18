@@ -1,0 +1,22 @@
+<h1>My address book</h1>
+<ul>
+{% for object in object_list %}
+  <li><em>username</em>: <a href='{% url "contact_detail" pk=object.pk %}'>{{ object.user }}</a></li>
+  <li>In the circles:
+    <ul>
+    {% for circle in object.optional_informations.circle.all %}
+      <li>
+      {% if circle.name.strip %}
+        <a href='{% url "circle_detail" circle.pk %}'>{{ circle }}</a>
+      {% endif %}
+      </li>
+    {% empty %}
+      <li>Doesn't belong to any circle</li>
+    {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+<a href='{% url "contact_create" %}'>Add a new contact</a>
+<br />
+<a href='{% url "circle_list" %}'>My circles</a>

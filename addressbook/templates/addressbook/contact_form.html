@@ -1,0 +1,14 @@
+<div class="well">
+  <h1>
+  {% if form.initial.nom %}
+    {{ form.initial.nom }}
+  {% else %}
+    Create a new circle
+  {% endif %}
+  </h1>
+  <form class="form-horizontal" action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="save" />
+  </form>
+</div>

@@ -7,6 +7,7 @@ class CircleAdmin(admin.ModelAdmin):
 
 class UserInfoAdmin(admin.ModelAdmin):
   pass
+  list_display = ('circles', 'notes',)
 
 class ContactAdmin(admin.ModelAdmin):
   list_display = ('owner', 'user',)

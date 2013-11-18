@@ -1,9 +1,14 @@
 from django.forms import ModelForm, HiddenInput
 from django.contrib.auth.models import User
 
-from models import Invitation
+from models import Invitation, Contact, Circle
 
 class InvitationForm(ModelForm):
   class Meta:
     model = Invitation
     exclude = ('sender',)
+
+class CircleForm(ModelForm):
+  class Meta:
+    model = Circle
+    exclude = ('owner',)

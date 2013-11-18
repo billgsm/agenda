@@ -1,0 +1,18 @@
+<h1>{{ object.name }}</h1> 
+<ul>
+{% for user in object.contacts %}
+  <li><a href='{% url "contact_detail" user.contact.pk %}'>{{ user.contact.user }}</a></li>
+  <li>In the circles:
+    <ul>
+      {% for circle in user.contact.optional_informations.circle.all %}
+        <li><a href='{{ circle.get_absolute_url }}'>{{ circle }} ({{ circle.contacts.count }})</a> </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% empty %}
+  <p>{{ object.name }} has 0 friend in it</p>
+{% endfor %}
+</ul>
+<a href='{% url "circle_delete" pk=object.pk %}'>Delete this circle</a>
+<br />
+<a href='{% url "circle_list" %}'>My circles</a>

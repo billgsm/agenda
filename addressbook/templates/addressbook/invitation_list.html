@@ -1,0 +1,12 @@
+{# By default, pluralize appends 's' if the given number if different from 1 #}
+<h1>My sent invitation{{ object_list.count|pluralize }}</h1>
+<ul>
+{% for object in object_list %}
+  <li><em>email</em>: {{ object.email }}</li>
+{% empty %}
+  <strong>No pending invitation</strong>
+{% endfor %}
+</ul>
+<a href="{% url 'circle_list' %}">My circles</a>
+<br />
+<a href="{% url 'contact_list' %}">My contacts</a>
