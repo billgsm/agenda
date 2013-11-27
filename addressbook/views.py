@@ -8,17 +8,38 @@ from django.shortcuts import HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from models import (Invitation, Contact, Circle)
-from forms import InvitationForm, CircleForm
+from models import (Invitation, Contact, Circle,
+        UserInfo)
+from forms import (InvitationForm, CircleForm,
+    ContactForm, UserInfoForm)
 
 
 class UserInfoUpdateView(UpdateView):
+    model = Contact
+    form_class = UserInfoForm
 
-  def get_form(self, form_class):
+    def get_form(self, form_class):
+        form = super(UserInfoUpdateView, self).get_form(form_class)
+        form.fields['circle'].queryset = Circle.objects.filter(
+                owner=self.request.user)
+        form.fields['notes'].initial = UserInfo.objects.get(
+                pk=form.initial['optional_informations']).notes
+        return form
+
+  def get_context_data(self, **kwargs):
+    print self.request.user.username
+    context = super(UserInfoUpdateView, self).get_context_data(**kwargs)
     import ipdb; ipdb.set_trace()
-    form = super(UserInfoUpdateView, self).get_form(form_class)
-    form.field['circle'].queryset = Circle.objects.filter(owner=self.request.user)
-    return form
+
+    def post(self, request, *args, **kwargs):
+        user_info_form = UserInfoForm(request.POST)
+        if user_info_form.is_valid():
+            user_info_form.save()
+            return HttpResponseRedirect(reverse('contact_detail',
+                kwargs={pk: Contact.objects.get(
+                    owner=request.user,
+                    optional_informations__notes__exact=user_info_form \
+                        .data['notes']).pk}))
 
 
 class InvitationCreateView(CreateView):
@@ -44,8 +65,8 @@ class InvitationCreateView(CreateView):
     obj.save()
     return send_invitation(obj)
 
-  def get_queryset(self):
-    return Invitation.objects.filter(sender=self.request.user)
+  #def get_queryset(self):
+  #  return Invitation.objects.filter(sender=self.request.user)
 
 
 class CircleCreateView(CreateView):
@@ -61,16 +82,26 @@ class CircleCreateView(CreateView):
     obj.owner = self.request.user
     try:
       Circle.objects.get(name=obj.name, owner=obj.owner)
+    except Circle.DoesNotExist:
+      pass
+    else:
       form._errors['name'] = ErrorList(
           [u'This circle already exists.'])
       return super(CircleCreateView, self).form_invalid(form)
-    except Circle.DoesNotExist:
-      pass
     obj.save()
     return HttpResponseRedirect(reverse('circle_detail', kwargs={'pk': obj.pk}))
 
   def get_queryset(self):
     return Circle.objects.filter(owner=self.request.user)
+
+
+class ContactCreateView(CreateView):
+    """
+    """
+    form_class = ContactForm
+    model = Contact
+    def form_valid(self, form):
+        import ipdb; ipdb.set_trace()
 
 
 class CircleListView(ListView):

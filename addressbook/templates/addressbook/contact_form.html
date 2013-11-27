@@ -1,9 +1,11 @@
 <div class="well">
   <h1>
-  {% if form.initial.nom %}
-    {{ form.initial.nom }}
+  {% if form.initial.owner %}
+    {{ form.initial }}
+    <hr />
+    {{ form.initial.user.pk }}
   {% else %}
-    Create a new circle
+    Create a new contact
   {% endif %}
   </h1>
   <form class="form-horizontal" action="" method="POST">

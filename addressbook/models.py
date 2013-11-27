@@ -33,7 +33,7 @@ class UserInfo(models.Model):
   notes = models.TextField()
 
   def __unicode__(self):
-    return u'{0}'.format(self.notes)
+      return u'Notes: {0} -> [{1}]'.format(self.notes, '-'.join([ circle.name for circle in self.circle.all()]))
 
   def circles(self):
     return ', '.join((circle.name for circle in self.circle.all()))
@@ -73,9 +73,10 @@ class Contact(models.Model):
     super(Contact, self).save(*args, **kwargs)
     if self.optional_informations == None:
       infos = UserInfo.objects.create()
+      infos.notes = 'infos {0}'.format(infos.pk)
+      infos.save()
       self.optional_informations = infos
       self.save()
-      infos.save()
 
   def delete(self, *args, **kwargs):
     optional_informations = self.optional_informations
