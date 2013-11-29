@@ -11,6 +11,7 @@
   <form class="form-horizontal" action="" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    <input type="hidden" name="pk" value="{{ form.initial.optional_informations }}" />
     <input type="submit" value="save" />
   </form>
 </div>

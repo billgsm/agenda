@@ -26,20 +26,24 @@ class UserInfoUpdateView(UpdateView):
                 pk=form.initial['optional_informations']).notes
         return form
 
-  def get_context_data(self, **kwargs):
-    print self.request.user.username
-    context = super(UserInfoUpdateView, self).get_context_data(**kwargs)
-    import ipdb; ipdb.set_trace()
+    #def get_context_data(self, **kwargs):
+        #print self.request.user.username
+        #context = super(UserInfoUpdateView, self).get_context_data(**kwargs)
+        #import ipdb; ipdb.set_trace()
 
     def post(self, request, *args, **kwargs):
         user_info_form = UserInfoForm(request.POST)
         if user_info_form.is_valid():
-            user_info_form.save()
+            user_info = UserInfo.objects.get(pk=user_info_form.data['pk'])
+            user_info.circle = [Circle.objects.get(pk=user_info_form.data['circle'])]
+            user_info.notes = user_info_form.data['notes']
+            contact = Contact.objects.get(
+                    optional_informations__pk=user_info_form.data['pk'])
+            contact.optional_informations = user_info
+            contact.save()
+            user_info.save()
             return HttpResponseRedirect(reverse('contact_detail',
-                kwargs={pk: Contact.objects.get(
-                    owner=request.user,
-                    optional_informations__notes__exact=user_info_form \
-                        .data['notes']).pk}))
+                kwargs={'pk': contact.pk}))
 
 
 class InvitationCreateView(CreateView):
