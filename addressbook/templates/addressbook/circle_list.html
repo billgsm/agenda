@@ -1,7 +1,7 @@
 <h1>My circles</h1>
 <ul>
 {% for object in object_list %}
-  <li><a href='{% url "circle_detail" pk=object.pk %}'>{{ object.name }}</a></li>
+    <li><a href='{% url "circle_detail" pk=object.pk %}'>{{ object.name }}</a>({{ object.contacts.count }})</li>
 {% empty %}
   <h4>No circle has been created.</h4>
 {% endfor %}

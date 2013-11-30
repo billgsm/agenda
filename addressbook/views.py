@@ -26,16 +26,11 @@ class UserInfoUpdateView(UpdateView):
                 pk=form.initial['optional_informations']).notes
         return form
 
-    #def get_context_data(self, **kwargs):
-        #print self.request.user.username
-        #context = super(UserInfoUpdateView, self).get_context_data(**kwargs)
-        #import ipdb; ipdb.set_trace()
-
     def post(self, request, *args, **kwargs):
         user_info_form = UserInfoForm(request.POST)
         if user_info_form.is_valid():
             user_info = UserInfo.objects.get(pk=user_info_form.data['pk'])
-            user_info.circle = [Circle.objects.get(pk=user_info_form.data['circle'])]
+            user_info.circle = Circle.objects.filter(pk=user_info_form.data['circle'])
             user_info.notes = user_info_form.data['notes']
             contact = Contact.objects.get(
                     optional_informations__pk=user_info_form.data['pk'])
