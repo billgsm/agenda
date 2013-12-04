@@ -1,6 +1,3 @@
-import os
-project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 DEBUG = True
 DATABASES = {
     'default': {
@@ -15,9 +12,10 @@ DATABASES = {
 ##################################################################
 ############First one works#######################################
 ##################################################################
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ##################################################################
 ############Second one works######################################
 ##################################################################
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = project_path + '/django_dev_emails'
+#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+#EMAIL_FILE_PATH = project_path + '/django_dev_emails'

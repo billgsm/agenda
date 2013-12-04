@@ -73,7 +73,8 @@ class Evenement_Participant(models.Model):
   status_choices = (
       (0, "hôte"),
       (1, "invité"),
-      (2, "désisté")
+      (2, "désisté"),
+      (3, "confirmé"),
       )
   status = models.IntegerField(choices=status_choices)
   class Meta:

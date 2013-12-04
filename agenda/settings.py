@@ -1,3 +1,6 @@
+import os
+project_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 try:
   from local_settings import *
 except:
@@ -106,9 +109,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'personal_calendar',
     'usermanagement',

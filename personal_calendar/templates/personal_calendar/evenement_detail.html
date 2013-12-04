@@ -9,9 +9,11 @@
     {% for participant in object.evenement_participant_set.all %}
       <div>
       {{ participant.participant }} | {{ participant.get_status_display }}
-      {% with delete_url=participant.delete_url %}
-        {% include "personal_calendar/blocks/delete_form.html" %}
-      {% endwith  %}
+      {% if participant.status != 0 %}
+          {% with delete_url=participant.delete_url %}
+            {% include "personal_calendar/blocks/delete_form.html" %}
+          {% endwith  %}
+      {% endif %}
       </div>
     {% endfor %}
   </div>

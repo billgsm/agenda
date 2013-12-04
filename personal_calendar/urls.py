@@ -3,7 +3,8 @@ from django.conf.urls import patterns, include, url
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
-from views import (delete_participant, Evenement_List, Evenement_Detail)
+from views import (delete_participant, Evenement_List, Evenement_Detail,
+        Evenement_ParticipantUpdateView)
 from models import Evenement
 from personal_calendar.forms import EventForm
 
@@ -29,4 +30,6 @@ urlpatterns = patterns('',
         name='delete_participant'),
 
     url(r'^(?P<pk>\d+)/detail/$', Evenement_Detail.as_view(), name='details'),
+
+    url(r'^(?P<pk>\d+)/participation/$', Evenement_ParticipantUpdateView.as_view(), name='participation'),
     )
