@@ -1,0 +1,9 @@
+Django==1.5.4
+MySQL-python==1.2.4
+Pygments==1.6
+South==0.8.2
+argparse==1.2.1
+bpython==0.12
+distribute==0.6.34
+ipython==1.1.0
+wsgiref==0.1.2
