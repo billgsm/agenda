@@ -5,3 +5,4 @@ syntax:glob
 agenda/local_settings.py
 *.swp
 django_dev_emails
+credentials.py
